@@ -1,0 +1,45 @@
+%h1 Listing recipes
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Ingredients
+      %th Prep time
+      %th Cook time
+      %th Total time
+      %th People quantity
+      %th Tags
+      %th Author
+      %th Budget
+      %th Difficulty
+      %th Rate
+      %th Author tip
+      %th Nb comments
+      %th
+      %th
+      %th
+
+  %tbody
+    - @recipes.each do |recipe|
+      %tr
+        %td= recipe.name
+        %td= recipe.ingredients
+        %td= recipe.prep_time
+        %td= recipe.cook_time
+        %td= recipe.total_time
+        %td= recipe.people_quantity
+        %td= recipe.tags
+        %td= recipe.author
+        %td= recipe.budget
+        %td= recipe.difficulty
+        %td= recipe.rate
+        %td= recipe.author_tip
+        %td= recipe.nb_comments
+        %td= link_to 'Show', recipe
+        %td= link_to 'Edit', edit_recipe_path(recipe)
+        %td= link_to 'Destroy', recipe, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Recipe', new_recipe_path

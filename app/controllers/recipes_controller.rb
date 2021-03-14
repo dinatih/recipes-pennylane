@@ -3,7 +3,14 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    @recipes = Recipe.all
+    if params[:query].present?
+      @recipes = Recipe.search_by_ingredients(params[:query])
+      @recipes_count = @recipes.count
+      @recipes = @recipes.with_pg_search_highlight
+    else
+      @recipes = Recipe.all
+      @recipes_count = @recipes.count
+    end
   end
 
   # GET /recipes/1 or /recipes/1.json

@@ -1,41 +1,21 @@
 %h1 Listing recipes
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Ingredients
-      %th Prep time
-      %th Cook time
-      %th Total time
-      %th People quantity
-      %th Tags
-      %th Author
-      %th Budget
-      %th Difficulty
-      %th Rate
-      %th Author tip
-      %th Nb comments
-      %th
-      %th
-      %th
-
+-# sel poivre riz vin oignon  huile lardons parmesan beurre
+%form
+  .form-group
+    %input.form-control#query{:name => "query", :placeholder => "My ingredients…", :type => "text", :value => "#{params[:query]}"}
+  %input.btn.btn-primary{:name => "commit", :type => "submit", :value => "Search"}
+%p
+  %b Count: #{@recipes_count}
+%table.table
   %tbody
     - @recipes.each do |recipe|
       %tr
-        %td= recipe.name
-        %td= recipe.ingredients
-        %td= recipe.prep_time
-        %td= recipe.cook_time
-        %td= recipe.total_time
-        %td= recipe.people_quantity
-        %td= recipe.tags
-        %td= recipe.author
-        %td= recipe.budget
-        %td= recipe.difficulty
-        %td= recipe.rate
-        %td= recipe.author_tip
-        %td= recipe.nb_comments
+        %td= image_tag(recipe.image, size: '100x100') if recipe.image.attached?
+        %td
+          %b= recipe.name
+          - if params[:query].present?
+            %br
+              = recipe.pg_search_highlight.html_safe
         %td= link_to 'Show', recipe
         %td= link_to 'Edit', edit_recipe_path(recipe)
         %td= link_to 'Destroy', recipe, method: :delete, data: { confirm: 'Are you sure?' }

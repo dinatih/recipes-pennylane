@@ -1,8 +1,15 @@
 # frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+require 'open-uri'
+
+path = Rails.root.join('db/recipes.json')
+File.foreach(path).with_index do |line, _i|
+  # break if i > 12
+
+  json = JSON.parse(line)
+  recipe = Recipe.create!(json.except('image'))
+  # recipe.image.attach(io: URI.parse(json['image']).open, filename: 'image.jpg') if json['image'].present?
+rescue StandardError
+  puts "Error on line: #{json}"
+end
+puts 'Recipes are seeded'
